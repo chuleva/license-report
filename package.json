@@ -25,11 +25,13 @@
   "dependencies": {
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.3",
+    "dotenv": "^16.0.0",
     "eol": "^0.9.1",
     "got": "^11.8.3",
     "rc": "^1.2.8",
     "semver": "^7.3.5",
     "text-table": "^0.2.0",
+    "valid-url": "^1.0.9",
     "visit-values": "^2.0.0"
   },
   "devDependencies": {

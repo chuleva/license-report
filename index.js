@@ -12,6 +12,8 @@ const packageDataToReportData = require('./lib/packageDataToReportData')
 const util = require('./lib/util');
 
 (async () => {
+  require('dotenv').config()
+
   if (config.help) {
     console.log(util.helpText)
     return
@@ -20,7 +22,7 @@ const util = require('./lib/util');
   if (!config.package) {
     config.package = './package.json'
   }
-
+  
   if (path.extname(config.package) !== '.json') {
     throw new Error('invalid package.json ' + config.package)
   }
@@ -53,7 +55,7 @@ const util = require('./lib/util');
     }
 
     if (!config.only || config.only.indexOf('dev') > -1) {
-			addPackagesToIndex(devDeps, depsIndex, exclusions)
+      addPackagesToIndex(devDeps, depsIndex, exclusions)
     }
 
     if (!config.only || config.only.indexOf('peer') > -1) {
@@ -66,7 +68,7 @@ const util = require('./lib/util');
       if (optDeps) {
         addPackagesToIndex(optDeps, depsIndex, exclusions)
       }
-    }
+    }   
 
     // package-lock.json is used to get the installed versions from
     let installedVersions = {}
@@ -78,14 +80,13 @@ const util = require('./lib/util');
     } else {
       console.warn(`Warning: the file '${resolvedPackageLockJson}' is required to get installed versions of packages`)
     }
-
     const results = await Promise.all(
       depsIndex.map(async (packageEntry) => {
         return await getPackageReportData(packageEntry, installedVersions)
       })
     )
-
     packagesData = results.map(element => packageDataToReportData(element, config))
+    
     console.log(outputFormatter(packagesData, config))
   } catch (e) {
     console.error(e.stack)
